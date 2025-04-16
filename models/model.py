@@ -1,7 +1,6 @@
 from datetime import datetime
-from models import db  # use Flask-SQLAlchemy's db, not declarative_base()
-from zoneinfo import ZoneInfo  # ✅ built-in from Python 3.9+
-
+from zoneinfo import ZoneInfo
+from models import db  # This uses the shared SQLAlchemy instance
 
 class AssistantConversation(db.Model):
     __tablename__ = "assistant_conversations"
@@ -15,7 +14,7 @@ class AssistantConversation(db.Model):
     attributes = db.Column(db.JSON)
     clean_attributes = db.Column(db.JSON)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(ZoneInfo("Asia/Yerevan")))
-    updated_at = db.Column( db.DateTime, default=lambda: datetime.now(ZoneInfo("Asia/Yerevan")), onupdate=lambda: datetime.now(ZoneInfo("Asia/Yerevan")))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(ZoneInfo("Asia/Yerevan")), onupdate=lambda: datetime.now(ZoneInfo("Asia/Yerevan")))
 
     threads = db.relationship("AssistantConversationThread", back_populates="conversation", cascade="all, delete-orphan")
     messages = db.relationship("AssistantConversationMessage", back_populates="conversation", cascade="all, delete-orphan")
@@ -29,7 +28,7 @@ class AssistantConversationThread(db.Model):
     thread_id = db.Column(db.String(255))
     thread_type = db.Column(db.String(50))
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(ZoneInfo("Asia/Yerevan")))
-    updated_at = db.Column( db.DateTime, default=lambda: datetime.now(ZoneInfo("Asia/Yerevan")), onupdate=lambda: datetime.now(ZoneInfo("Asia/Yerevan")))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(ZoneInfo("Asia/Yerevan")), onupdate=lambda: datetime.now(ZoneInfo("Asia/Yerevan")))
 
     conversation = db.relationship("AssistantConversation", back_populates="threads")
 
@@ -44,6 +43,6 @@ class AssistantConversationMessage(db.Model):
     mail_body = db.Column(db.Text)
     reply_mail = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(ZoneInfo("Asia/Yerevan")))
-    updated_at = db.Column( db.DateTime, default=lambda: datetime.now(ZoneInfo("Asia/Yerevan")), onupdate=lambda: datetime.now(ZoneInfo("Asia/Yerevan")))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(ZoneInfo("Asia/Yerevan")), onupdate=lambda: datetime.now(ZoneInfo("Asia/Yerevan")))
 
     conversation = db.relationship("AssistantConversation", back_populates="messages")

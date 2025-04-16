@@ -6,16 +6,14 @@ from dotenv import load_dotenv
 # Add project root to Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-# ✅ Load environment variables from .env
+# Load environment variables from .env
 load_dotenv()
 
 from flask import Flask
 from models import db
-from models.model import AssistantConversation
-from models.model import AssistantConversationThread
-from models.model import AssistantConversationMessage
+from models.model import AssistantConversation, AssistantConversationThread, AssistantConversationMessage
 
-# ✅ Setup Flask app and config from env
+# Setup Flask app with config from .env
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{os.getenv('DATABASE_PATH')}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
